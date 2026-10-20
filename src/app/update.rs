@@ -458,12 +458,12 @@ fn handle_irc(state: &mut AppState, ev: IrcEvent) -> Vec<AppCommand> {
                     | "323"
             ) {
                 // MOTD / ISUPPORT noise — keep MOTD body only
-                if cmd == "372" || cmd == "375" {
-                    if let Some(t) = msg.trailing() {
-                        state
-                            .buffers
-                            .push_server(ChatLine::now(LineKind::Raw, t.to_string()));
-                    }
+                if (cmd == "372" || cmd == "375")
+                    && let Some(t) = msg.trailing()
+                {
+                    state
+                        .buffers
+                        .push_server(ChatLine::now(LineKind::Raw, t.to_string()));
                 }
                 return AppCommand::none();
             }
@@ -557,7 +557,7 @@ mod tests {
     #[test]
     fn slash_help_visible_on_active_channel() {
         let mut state = AppState::new(Config::default());
-        assert_eq!(state.buffers.active_name(), Some("#ditra"));
+        assert_eq!(state.buffers.active_name(), Some("#general"));
         state.input = "/help".into();
         state.input_cursor = state.input.len();
         let cmds = update(
