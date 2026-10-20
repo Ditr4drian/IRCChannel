@@ -140,10 +140,10 @@ async fn run_bot(bot: Bot, offset: u64) -> anyhow::Result<()> {
                 println!("[{}] {}", bot.nick, text);
 
                 // occasional /me-style action via CTCP
-                if line_idx % 5 == 0 {
+                if line_idx.is_multiple_of(5) {
                     let _ = handle.commands.send(IrcCommand::Privmsg {
                         target: "#ditra".into(),
-                        text: format!("\x01ACTION revisa logs\x01"),
+                        text: "\x01ACTION revisa logs\x01".to_string(),
                     });
                 }
             }
