@@ -1,0 +1,50 @@
+name: Update changelog
+
+# CHANGELOG.md y docs/changelog.json ahora se generan dentro de release.yml
+# para cada release en main. Este workflow mantiene la seccion [Unreleased]
+# al dia en cada push a dev, ademas de permitir disparo manual.
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: changelog-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate CHANGELOG.md
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --verbose
+        env:
+          OUTPUT: CHANGELOG.md
+
+      - name: Generate docs/changelog.json
+        run: |
+          mkdir -p docs
+          "$RUNNER_TEMP/git-cliff/bin/git-cliff" --config cliff.toml --context --output docs/changelog.json --verbose
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md docs/changelog.json
+          if git diff --cached --quiet; then
+            echo "No changelog changes"
+            exit 0
+          fi
+          git commit -m "chore(changelog): update CHANGELOG.md and docs/changelog.json [skip ci]"
+          git push
