@@ -557,7 +557,7 @@ mod tests {
     #[test]
     fn slash_help_visible_on_active_channel() {
         let mut state = AppState::new(Config::default());
-        assert_eq!(state.buffers.active_name(), Some("#ditra"));
+        assert_eq!(state.buffers.active_name(), Some("#general"));
         state.input = "/help".into();
         state.input_cursor = state.input.len();
         let cmds = update(
