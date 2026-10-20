@@ -1,0 +1,24 @@
+# IRCChannel built-in defaults.
+# Override them in ~/.config/ircchannel/config.toml (see config/config.example.toml).
+
+[connection]
+host = "irc.example.com"
+port = 6667
+# tls = false  # reserved for a later module
+server_password = ""
+
+[identity]
+nick = "ircchannel"
+username = "ircchannel"
+realname = "IRCChannel TUI"
+
+[session]
+channels = ["#general"]
+# outgoing rate limit cushion (ms between lines); 0 = off
+send_delay_ms = 0
+
+[ui]
+tick_ms = 250
+history_limit = 2000
+# IANA timezone for message timestamps (e.g. America/Mexico_City)
+timezone = "America/Mexico_City"

@@ -1,0 +1,8 @@
+/target
+**/*.rs.bk
+.DS_Store
+.env
+*.log
+
+# Local release helper (CI owns releases)
+release.sh

@@ -1,0 +1,30 @@
+[package]
+name = "ircchannel"
+version = "0.1.0"
+edition = "2024"
+description = "Lightweight terminal IRC client for private team chat"
+license = "MIT"
+repository = "https://github.com/ditr4drian/IRCChannel"
+readme = "README.md"
+
+[dependencies]
+anyhow = "1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+chrono-tz = "0.10"
+crossterm = { version = "0.28", features = ["event-stream"] }
+directories = "6"
+futures = "0.3"
+ratatui = "0.29"
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+tokio-stream = { version = "0.1", features = ["sync"] }
+toml = "0.8"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+unicode-width = "0.2"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
