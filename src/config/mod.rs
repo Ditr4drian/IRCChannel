@@ -80,14 +80,14 @@ impl Config {
     pub fn load() -> Result<Self> {
         let mut cfg = Config::default();
 
-        if let Some(path) = user_config_path() {
-            if path.is_file() {
-                let raw = fs::read_to_string(&path)
-                    .map_err(|e| Error::Config(format!("read {}: {e}", path.display())))?;
-                let file_cfg: Config = toml::from_str(&raw)
-                    .map_err(|e| Error::Config(format!("parse {}: {e}", path.display())))?;
-                cfg = file_cfg;
-            }
+        if let Some(path) = user_config_path()
+            && path.is_file()
+        {
+            let raw = fs::read_to_string(&path)
+                .map_err(|e| Error::Config(format!("read {}: {e}", path.display())))?;
+            let file_cfg: Config = toml::from_str(&raw)
+                .map_err(|e| Error::Config(format!("parse {}: {e}", path.display())))?;
+            cfg = file_cfg;
         }
 
         cfg.apply_env();
@@ -99,10 +99,10 @@ impl Config {
         if let Ok(host) = std::env::var("IRC_HOST") {
             self.connection.host = host;
         }
-        if let Ok(port) = std::env::var("IRC_PORT") {
-            if let Ok(p) = port.parse() {
-                self.connection.port = p;
-            }
+        if let Ok(port) = std::env::var("IRC_PORT")
+            && let Ok(p) = port.parse()
+        {
+            self.connection.port = p;
         }
         if let Ok(pass) = std::env::var("IRC_PASSWORD") {
             self.connection.server_password = pass;
@@ -124,10 +124,10 @@ impl Config {
                 .map(normalize_channel)
                 .collect();
         }
-        if let Ok(tz) = std::env::var("IRC_TZ") {
-            if !tz.trim().is_empty() {
-                self.ui.timezone = tz;
-            }
+        if let Ok(tz) = std::env::var("IRC_TZ")
+            && !tz.trim().is_empty()
+        {
+            self.ui.timezone = tz;
         }
     }
 

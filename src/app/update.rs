@@ -458,12 +458,12 @@ fn handle_irc(state: &mut AppState, ev: IrcEvent) -> Vec<AppCommand> {
                     | "323"
             ) {
                 // MOTD / ISUPPORT noise — keep MOTD body only
-                if cmd == "372" || cmd == "375" {
-                    if let Some(t) = msg.trailing() {
-                        state
-                            .buffers
-                            .push_server(ChatLine::now(LineKind::Raw, t.to_string()));
-                    }
+                if (cmd == "372" || cmd == "375")
+                    && let Some(t) = msg.trailing()
+                {
+                    state
+                        .buffers
+                        .push_server(ChatLine::now(LineKind::Raw, t.to_string()));
                 }
                 return AppCommand::none();
             }
