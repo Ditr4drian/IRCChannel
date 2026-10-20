@@ -1,0 +1,37 @@
+# IRCChannel — ejemplo de configuración
+#
+# Cópialo a tu carpeta de configuración y edítalo:
+#
+#   mkdir -p ~/.config/ircchannel
+#   cp config/config.example.toml ~/.config/ircchannel/config.toml
+#
+# Importante: este archivo REEMPLAZA la configuración por defecto,
+# así que deja todas las secciones aunque no cambies nada en ellas.
+
+[connection]
+# Dirección del servidor IRC (nombre o IP) y su puerto.
+host = "irc.example.com"
+port = 6667
+# Contraseña del servidor, solo si tu servidor la pide. Si no, déjala vacía.
+server_password = ""
+
+[identity]
+# Cómo te verán los demás en el chat.
+nick = "tu_nombre"
+username = "tu_nombre"
+realname = "Tu Nombre"
+
+[session]
+# Canales a los que entras automáticamente al conectar.
+channels = ["#general", "#equipo"]
+# Pausa (en milisegundos) entre mensajes enviados. 0 = sin pausa.
+send_delay_ms = 0
+
+[ui]
+# Cada cuánto se refresca la pantalla (milisegundos).
+tick_ms = 250
+# Cuántos mensajes se conservan por canal.
+history_limit = 2000
+# Zona horaria para la hora de los mensajes.
+# Lista completa: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone = "America/Mexico_City"
